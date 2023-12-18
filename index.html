@@ -1,0 +1,68 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Rubik+Scribble&display=swap" rel="stylesheet">
+        <script crossorigin
+            src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin
+            src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <link rel="stylesheet" href="./style/style.css">
+        <title>React</title>
+
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function App(params) {
+                        const [arr, setArr] = React.useState([
+                            {id:Math.random(),name:"React",time:new Date().toLocaleString()},
+                            {id:Math.random(),name:"Css",time:new Date().toLocaleString()},
+                            {id:Math.random(),name:"Js",time:new Date().toLocaleString()},
+                        ])
+                const [text,setText]= React.useState('')
+            
+                function addNote(event) {
+                    event.preventDefault()
+                    if (text.length>2) {
+                        const newNote = {id:Math.random(),name:text, time:new Date().toLocaleString()}
+                        setArr([...arr,newNote])
+                        setText('')
+                    }
+                }
+                
+                function deleteNote(id) {
+                    setArr(arr.filter(note => note.id !== id));
+                }
+                return(
+                    <div className="container">
+                       
+                            <h1>Todo List</h1>
+                        <form onSubmit={(event)=>addNote(event)}>
+                            <input type="text" value={text} onChange={(e)=>setText(e.target.value)}/>
+                            <button>Add Note</button>    
+                        </form>
+                        <ul className="box">
+                            { arr.map((obj,i)=>(
+                                <li key={obj.id} className="card">
+                                    <h2>Name : {i}</h2>
+                                    <h2>Work: {obj.name}</h2>
+                                    <h2>Time: {obj.time}</h2>
+                                    <button className="delete" onClick={() => deleteNote(obj.id)}>X</button>
+                                </li>
+                            ))}
+                        </ul>       
+                    </div>
+                )        }
+
+        const app = document.getElementById('root')
+        const root=  ReactDOM.createRoot(app)
+        root.render(<App/>)
+    </script>
+    </body>
+</html>
